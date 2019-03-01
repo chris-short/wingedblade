@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cat <<EOF > /app/fathom.env
+FATHOM_SERVER_ADDR="8080"
+FATHOM_GZIP=true
+FATHOM_DEBUG=true
+FATHOM_DATABASE_DRIVER="postgres"
+FATHOM_DATABASE_URL="$FDBSTRG"
+FATHOM_SECRET="$FSECRET"
+EOF
+
+chmod 0400 /app/fathom.env

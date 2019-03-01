@@ -1,0 +1,71 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: fathom-lb
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "wingedblade-cert"
+    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
+    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-type: "cookies"
+    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-name: "wingedblade-session"
+    service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "60"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/health"
+spec:
+  type: LoadBalancer
+  selector:
+    app: fathom-lb
+  ports:
+    - name: http
+      protocol: TCP
+      nodePort: 30000
+      port: 80
+      targetPort: 8080
+    - name: https
+      protocol: TCP
+      nodePort: 30001
+      port: 443
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fathom-deployment
+  labels:
+    app: fathom
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: fathom
+  template:
+    metadata:
+      labels:
+        app: fathom
+    spec:
+      containers:
+      - name: fathom
+        image: quay.io/chrisshort/fathom:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: FDBSTRG
+          valueFrom:
+            secretKeyRef:
+              name: psql-env-vars
+              key: FDBSTRG
+        - name: FSECRET
+          valueFrom:
+            secretKeyRef:
+              name: psql-env-vars
+              key: FSECRET
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
