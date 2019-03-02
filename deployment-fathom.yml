@@ -11,7 +11,7 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-name: "wingedblade-session"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "300"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "482db94e-381c-4351-a076-7d544cc0b40d"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "92e73c98-1cb9-4780-bf2c-1457f27b2d9c"
 spec:
   type: LoadBalancer
   selector:
