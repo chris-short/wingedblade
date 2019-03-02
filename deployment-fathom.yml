@@ -1,0 +1,54 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-analytics-wingedblade-com
+spec:
+  rules:
+  - host: analytics.wingedblade.com
+    http:
+      paths:
+      - backend:
+          serviceName: fathom
+          servicePort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fathom-deployment
+  labels:
+    app: fathom
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: fathom
+  template:
+    metadata:
+      labels:
+        app: fathom
+    spec:
+      containers:
+      - name: fathom
+        image: quay.io/chrisshort/fathom:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: FDBSTRG
+          valueFrom:
+            secretKeyRef:
+              name: psql-env-vars
+              key: FDBSTRG
+        - name: FSECRET
+          valueFrom:
+            secretKeyRef:
+              name: psql-env-vars
+              key: FSECRET
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
