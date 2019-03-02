@@ -4,13 +4,14 @@ kind: Service
 metadata:
   name: fathom-lb-svc
   annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: http
+    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
     service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-type: "cookies"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-name: "wingedblade-session"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "300"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "cert-wingedblade"
-    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "482db94e-381c-4351-a076-7d544cc0b40d"
 spec:
   type: LoadBalancer
   selector:
@@ -19,6 +20,10 @@ spec:
     - name: http
       protocol: TCP
       port: 80
+      targetPort: 8080
+    - name: https
+      protocol: TCP
+      port: 443
       targetPort: 8080
 
 ---
