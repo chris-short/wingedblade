@@ -5,6 +5,7 @@ metadata:
   name: fathom-lb-svc
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/health"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-type: "cookies"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-name: "wingedblade-session"
     service.beta.kubernetes.io/do-loadbalancer-sticky-sessions-cookie-ttl: "300"
