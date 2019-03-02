@@ -1,0 +1,1 @@
+[![Docker Repository on Quay](https://quay.io/repository/chrisshort/fathom/status "Docker Repository on Quay")](https://quay.io/repository/chrisshort/fathom) 
