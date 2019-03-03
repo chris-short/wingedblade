@@ -34,7 +34,7 @@ metadata:
   labels:
     app: fathom
 spec:
-  replicas: 6
+  replicas: 15
   selector:
     matchLabels:
       app: fathom
@@ -61,8 +61,8 @@ spec:
               key: FSECRET
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "250m"
+            memory: "32Mi"
+            cpu: "100m"
           limits:
-            memory: "256Mi"
-            cpu: "500m"
+            memory: "128Mi"
+            cpu: "250m"
