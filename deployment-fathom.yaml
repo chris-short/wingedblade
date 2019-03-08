@@ -34,7 +34,7 @@ metadata:
   labels:
     app: fathom
 spec:
-  replicas: 27
+  replicas: 20
   selector:
     matchLabels:
       app: fathom
