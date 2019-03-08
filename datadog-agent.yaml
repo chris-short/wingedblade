@@ -31,7 +31,9 @@ spec:
           - name: DD_KUBERNETES_KUBELET_HOST
             valueFrom:
               fieldRef:
-                fieldPath: spec.nodeName
+                fieldPath: status.hostIP
+          - name: DD_KUBELET_TLS_VERIFY
+            value: "false"
         resources:
           requests:
             memory: "256Mi"
