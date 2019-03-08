@@ -22,13 +22,16 @@ spec:
             protocol: TCP
         env:
           - name: DD_API_KEY
-            value: fa44842d9340175e53299386389aeb19
+            valueFrom:
+              secretKeyRef:
+                name: dd-env-vars
+                key: DD_API_KEY
           - name: KUBERNETES
             value: "true"
           - name: DD_KUBERNETES_KUBELET_HOST
             valueFrom:
               fieldRef:
-                fieldPath: status.hostIP
+                fieldPath: spec.nodeName
         resources:
           requests:
             memory: "256Mi"
