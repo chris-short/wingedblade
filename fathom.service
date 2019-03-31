@@ -1,0 +1,14 @@
+[Unit]
+Description=Fathom Analytcs
+Requires=docker.service
+
+[Service]
+ExecStartPre=/bin/sleep 1
+ExecStartPre=/bin/docker pull quay.io/chrisshort/fathom
+ExecStart=/bin/docker run --restart=always --name=systemd_fathom -p=8080:8080 quay.io/chrisshort/fathom:latest
+ExecStop=/bin/docker stop systemd_fathom
+ExecStopPost=/bin/docker rm -f systemd_fathom
+ExecReload=/bin/docker restart systemd_fathom
+
+[Install]
+WantedBy=multi-user.target
