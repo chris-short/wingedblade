@@ -10,26 +10,27 @@ Fathom running in a cloud native manner. Designed to be highly portable
 
 This can be run anywhere assuming there is a Postgres database for which you have a connection string (assuming the host isn't firewalled).
 
-## Environment
+### Environment
 
 Add the following to the root account's environment (.bash_profile):
 
 FSECRET  
 FDBSTRG
 
-## Docker Bits
+### Docker Bits
 
 `git clone https://github.com/chris-short/wingedblade.git`
 
-### Build Container
+#### Build Container
 
 `docker build --build-arg fsecret=$FSECRET --build-arg fdbstrg=$FDBSTRG -t quay.io/chrisshort/fathom:latest .`
 
-### Run Container
+#### Run Container
 
 `docker run -p=8080:8080 quay.io/chrisshort/fathom:latest`
 
-# Proof of Concept
+
+## WingedBlade Proof of Concept
 
 ## Purpose
 
@@ -63,8 +64,8 @@ WORD OF CAUTION: Have an edge strategy (load balancing) before potentially expos
     && systemctl start fathom
 ```
 
-#### Notes from Deploy
+Here's is where the sitcky bits around load balancing come in.
 
-fathom001.wingedblade.com
-138.68.26.238
+For whatever reason, the Digital Ocean load balancer couldn't go green last night. Then this morning I remembered Digital Ocean load balancers took a little bit of time to have settings changes distribute. Built a new one, configured it according, added it to the fireall on 8080 on fathom001, waited a few minutes... Boom! Success.
 
+The next option would've been Traefik, Let's Encrypt, & Docker 🤮. But, while researching this path I realized I don't necessarily want this for a simple standalone instance. Although, it'd be a little be cheaper it's not worth the time.
